@@ -1,9 +1,8 @@
 import ApiServiceTMDB from '../apiService/ApiService';
 import loadModal from '../views/modalFilm.hbs';
 import modalCard from './modal-descriptions';
-import { collection, setDoc, doc } from 'firebase/firestore';
-import { onAuthStateChanged } from "firebase/auth";
-import { db, auth } from '../../firebase.config';
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase.config';
 import { sendNotification } from './notification';
 
 const main = document.querySelector('.main');
@@ -15,8 +14,8 @@ const btnClose = document.querySelector('.close-svg');
 const blackscreen = document.querySelector('#blackscreen');
 
 function appendImgMarkup(image) {
-  modalContent.insertAdjacentHTML('beforeend', loadModal(image));
-  modalCard();
+    modalContent.insertAdjacentHTML('beforeend', loadModal(image));
+    modalCard();
 }
 
 async function onLoadModal(event) {
@@ -41,7 +40,7 @@ async function onLoadModal(event) {
         async function addToFirestore(collection) {
             const uid = sessionStorage.getItem('uid');
             if (uid == null || uid == undefined) {
-                await sendNotification('error', 'You must be logged in!');
+                sendNotification('error', 'You must be logged in!');
                 return;
             }
             const docId = (uid).substring(0, 8) + '.' + filmId;
